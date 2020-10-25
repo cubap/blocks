@@ -15,20 +15,25 @@
             flex-direction: row;
             position: relative;
             width: 100%;
+            justify-content: center;
         }
 
         div.box {
             flex: 1 0 auto;
             height: 15rem;
-            max-height: 30vw;
-            max-width: 30vw;
+            max-height: min(30vw, 20vh);
+            max-width: min(30vw, 20vh);
             padding: 0;
             margin: 0;
         }
 
+        div.guide {
+            margin: 2rem auto;
+        }
+
         div.guide .box {
-            max-height: 12.5vw;
-            max-width: 12.5vw;
+            max-height: min(20vh, 12.5vw);
+            max-width: min(20vh, 12.5vw);
         }
 
         div.red {
@@ -57,7 +62,7 @@
         }
 
         div.loose {
-            box-shadow:0 0 0 .1rem inset black;
+            box-shadow: 0 0 0 .1rem inset black;
         }
 
         button {
@@ -95,41 +100,44 @@
     </div>
 
     <button role="button" onclick="shuffle()">New Design</button>
-<a id=peek>peek</a>
+    <a id=peek>peek</a>
     <script>
         const options = [
             "red i1", "white i2 ", "slash i3",
-            "slash one-eighty i4", 
+            "slash one-eighty i4",
             "slash two-seventy i5",
             "slash ninety i0"
         ]
-        function shuffle(){
+        function shuffle() {
             let boxes = getBoxes()
-            boxes.forEach(b=>b.className="box "+options[parseInt(Math.random()*6)])
+            boxes.forEach(b => b.className = "box " + options[parseInt(Math.random() * 6)])
         }
 
-        function getBoxes(){
+        function getBoxes() {
             return document.querySelectorAll(".container:not(.guide) .box")
         }
 
-        function nextIs(event){
+        function nextIs(event) {
             let box = event.target
-            box.classList.forEach(c=>{
-                if(c.length===2) {
+            box.classList.forEach(c => {
+                if (c.length === 2) {
                     let newClass = parseInt(c[1])
-                    box.className = "box "+options[newClass]
+                    box.className = "box " + options[newClass]
                 }
             })
         }
 
-        getBoxes().forEach(el=>el.onclick=nextIs)
-        peek.addEventListener("mouseover",ev=>{
-            getBoxes().forEach(b=>b.classList.add('loose'))
+        getBoxes().forEach(el => el.onclick = nextIs)
+        peek.addEventListener("mouseover", ev => {
+            getBoxes().forEach(b => b.classList.add('loose'))
         })
-        peek.addEventListener("mouseleave",ev=>{
-            getBoxes().forEach(b=>b.classList.remove('loose'))
+        peek.addEventListener("mouseleave", ev => {
+            getBoxes().forEach(b => b.classList.remove('loose'))
         })
-        </script>
+        peek.addEventListener("click", ev => {
+            getBoxes().forEach(b => b.classList.toggle('loose'))
+        })
+    </script>
 
 </body>
 
