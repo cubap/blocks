@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="none">
+
+<head>
+    <title>blocks</title>
+    <style>
+        body {
+            background-color: silver;
+            position: relative;
+            width: 100vw;
+        }
+
+        div.container {
+            display: flex;
+            flex-direction: row;
+            position: relative;
+            width: 100%;
+        }
+
+        div.box {
+            flex: 1 0 auto;
+            height: 15rem;
+            max-height: 30vw;
+            max-width: 30vw;
+            padding: 0;
+            margin: 0;
+        }
+
+        div.guide .box {
+            max-height: 12.5vw;
+            max-width: 12.5vw;
+        }
+
+        div.red {
+            background-color: red;
+        }
+
+        div.white {
+            background-color: white;
+        }
+
+        div.slash {
+            background: rgb(255, 255, 255);
+            background: linear-gradient(45deg, rgba(255, 255, 255, 1) 50%, rgba(255, 0, 0, 1) 50%);
+        }
+
+        div.ninety {
+            background: linear-gradient(-45deg, rgba(255, 0, 0, 1) 50%, rgba(255, 255, 255, 1) 50%);
+        }
+
+        div.one-eighty {
+            background: linear-gradient(45deg, rgba(255, 0, 0, 1) 50%, rgba(255, 255, 255, 1) 50%);
+        }
+
+        div.two-seventy {
+            background: linear-gradient(-45deg, rgba(255, 255, 255, 1) 50%, rgba(255, 0, 0, 1) 50%);
+        }
+
+        div.loose {
+            box-shadow:0 0 0 .1rem inset black;
+        }
+
+        button {
+            margin: 1rem;
+            padding: 1rem;
+            font-size: large;
+            border-radius: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container guide">
+        <div class="box red loose"></div>
+        <div class="box white loose"></div>
+        <div class="box slash loose"></div>
+        <div class="box slash one-eighty loose"></div>
+        <div class="box slash two-seventy loose"></div>
+        <div class="box slash ninety loose"></div>
+    </div>
+    <div class="container">
+        <div class="box white"></div>
+        <div class="box red"></div>
+        <div class="box white"></div>
+    </div>
+    <div class="container">
+        <div class="box red"></div>
+        <div class="box white"></div>
+        <div class="box red"></div>
+    </div>
+    <div class="container">
+        <div class="box white"></div>
+        <div class="box red"></div>
+        <div class="box white"></div>
+    </div>
+
+    <button role="button" onclick="shuffle()">New Design</button>
+<a id=peek>peek</a>
+    <script>
+        const options = [
+            "red i1", "white i2 ", "slash i3",
+            "slash one-eighty i4", 
+            "slash two-seventy i5",
+            "slash ninety i0"
+        ]
+        function shuffle(){
+            let boxes = getBoxes()
+            boxes.forEach(b=>b.className="box "+options[parseInt(Math.random()*6)])
+        }
+
+        function getBoxes(){
+            return document.querySelectorAll(".container:not(.guide) .box")
+        }
+
+        function nextIs(event){
+            let box = event.target
+            box.classList.forEach(c=>{
+                if(c.length===2) {
+                    let newClass = parseInt(c[1])
+                    box.className = "box "+options[newClass]
+                }
+            })
+        }
+
+        getBoxes().forEach(el=>el.onclick=nextIs)
+        peek.addEventListener("mouseover",ev=>{
+            getBoxes().forEach(b=>b.classList.add('loose'))
+        })
+        peek.addEventListener("mouseleave",ev=>{
+            getBoxes().forEach(b=>b.classList.remove('loose'))
+        })
+        </script>
+
+</body>
+
+</html>
